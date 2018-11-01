@@ -1,9 +1,12 @@
+import random
 import numpy as np
 import scipy.io as sio
 import scipy.linalg as slag
 import matplotlib.pyplot as plt
 import pandas as pd 
 from numpy import mat
+from filtering import CollaborativeFiltering
+
 def getOriginalIdx(idx,dict):
 	for (k,v) in moviedic.items():
 		if v == idx :
@@ -109,6 +112,8 @@ def getLossforUi(i,R,U,V):
 			res += (R[i,j]- np.dot(u_i,v_j))**2
 	return res
 
+# main section
+random.seed(1000)
 data=(pd.read_csv("movie_ratings.csv").values)
 usernum = 0
 movienum = 0
@@ -162,6 +167,12 @@ param_lambda = 0.5
 param_lrate = 0.01
 U = np.random.random([usernum,param_k])
 V = np.random.random([movienum,param_k])
+
+# collaborative filtering
+clb =  CollaborativeFiltering(10)
+test_x = [(item[0], item[1]) for item in testSet]
+test_y = [item[2] for item in testSet]
+print(clb.evaluation(R,test_x,test_y))
 
 # Use Least Square
 print("start Pre-Train")
