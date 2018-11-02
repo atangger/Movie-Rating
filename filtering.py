@@ -29,8 +29,11 @@ class CollaborativeFiltering:
                     pos = candidates.index(min(candidates))
                     candidates[pos] = sim
                     ratings[pos] = line[predict_id[1]]
-        
-        return np.mean(np.nonzero(np.array(ratings)))
+                    
+        if not np.sum(np.array(ratings)):
+            return 5
+        else:
+            return np.mean(np.nonzero(np.array(ratings)))
 
     def evaluation(self, data, test_x, test_y):
         # test_x list whose element is predict_id (row, col)
